@@ -5,7 +5,7 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // used to create fake backend
-import { fakeBackendProvider } from './_helpers/fake-backend';
+//import { fakeBackendProvider } from './_helpers/fake-backend';
 
 import { routing } from './app-routing.module';
 
@@ -15,6 +15,8 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
+import { RegisterComponent } from './register/register.component';
+import { PublisherComponent } from './publisher/publisher.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { AdminComponent } from './admin/admin.component';
     LoginComponent,
     HomeComponent,
     AdminComponent,
+    RegisterComponent,
+    PublisherComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,11 +36,8 @@ import { AdminComponent } from './admin/admin.component';
   ],
   providers: [
   {  provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-  { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-
-  // provider used to create fake backend
-  fakeBackendProvider
-  ],
+  //{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

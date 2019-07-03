@@ -1,12 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
 import { UserService } from '../_services/user.service';
 
-@Component({ templateUrl: 'home.component.html' })
-export class HomeComponent {
+@Component({
+  selector: 'app-publisher',
+  templateUrl: './publisher.component.html',
+
+})
+export class PublisherComponent implements OnInit {
+
   currentUser: User;
   userFromApi: User;
 
@@ -15,11 +20,10 @@ export class HomeComponent {
     private authenticationService: AuthenticationService
   ) {
     this.currentUser = this.authenticationService.currentUserValue;
-    //console.log(this.currentUser.role);
   }
 
   ngOnInit() {
-  /*  this.userService.getById(this.currentUser.id).pipe(first()).subscribe(user => {
+   /* this.userService.getById(this.currentUser.id).pipe(first()).subscribe(user => {
       this.userFromApi = user;
     });*/
   }

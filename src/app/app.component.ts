@@ -13,15 +13,19 @@ export class AppComponent {
     private router: Router,
     private authenticationService: AuthenticationService
   ) {
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
   get isAdmin() {
     return this.currentUser && this.currentUser.role === Role.Admin;
   }
+  get isPublisher() {
+    console.log(this.currentUser && this.currentUser.role === Role.Publisher);
+    return this.currentUser && this.currentUser.role === Role.Publisher;
+  }
 
   logout() {
     this.authenticationService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
+
 }

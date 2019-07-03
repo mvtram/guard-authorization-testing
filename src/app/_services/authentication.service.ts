@@ -2,40 +2,59 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import decode from 'jwt-decode';
 import { User } from '../_models/user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
-
+ userdetail= {
+   role: '',
+   token: '',
+ };
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): User {
-    return this.currentUserSubject.value;
-  }
 
   login(username: string, password: string) {
-    return this.http.post<any>(`/users/authenticate`, { username, password })
-      .pipe(map(user => {
-        // login successful if there's a jwt token in the response
-        if (user && user.token) {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
-        }
+    return this.http.post<any>('http://localhost:3000/login', { username, password }).pipe(map(user => {
+      if (user && user.token) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+      }
+      this.userdetail = user;
+      //console.log('from auth service' + this.userdetail.role);
+      //console.log('from auth service' + this.userdetail.token);
 
-        return user;
-      }));
+      return user;
+    }));
+  }
+
+  register(username: string, password: string) {
+    return this.http.post<any>('http://localhost:3000/register', { username, password });
+  }
+
+  getToken(): String {
+    return localStorage.getItem('currentUser');
+  }
+
+  getUserDetail(){
+
+    return this.userdetail;
+  }
+
+
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+    if (!token) {
+      return false;
+    }
+    let expiryDate = new Date(0);
+    const exp = decode(token).exp;
+    expiryDate.setUTCSeconds(exp);
+    return expiryDate.valueOf() > new Date().valueOf();
   }
 
   logout() {
-    // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
   }
+
 }
