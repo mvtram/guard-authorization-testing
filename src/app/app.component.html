@@ -1,13 +1,17 @@
 <!-- nav -->
+<div>
+
 <nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
   <div class="navbar-nav">
-    <a class="nav-item nav-link" routerLink="/home">Home</a>
-    <a class="nav-item nav-link" routerLink="/admin" *ngIf="isAdmin">Admin</a>
-    <a class="nav-item nav-link" routerLink="/publisher" *ngIf="isPublisher">Publisher</a>
+    <a class="nav-item nav-link" routerLink="/dashboard">Home</a>
+    <a class="nav-item nav-link" routerLink="/admin" *ngIf="!isAdmin()">Admin</a>
+    <a class="nav-item nav-link" routerLink="/publisher" *ngIf="!isPublisher()">Publisher</a>
     <a class="nav-item nav-link" (click)="logout()">Logout</a>
   </div>
 </nav>
+</div>
 
+<p>hello publisher</p>
 <!-- main app container -->
 <div class="jumbotron">
   <div class="container">

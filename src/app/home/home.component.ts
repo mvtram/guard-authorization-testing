@@ -7,20 +7,24 @@ import { UserService } from '../_services/user.service';
 
 @Component({ templateUrl: 'home.component.html' })
 export class HomeComponent {
-  currentUser: User;
-  userFromApi: User;
+  currentUser = {
+    role: '',
+    token: '',
+    firstname: '',
+    password:'',
+  };
+
 
   constructor(
     private userService: UserService,
     private authenticationService: AuthenticationService
   ) {
-    this.currentUser = this.authenticationService.currentUserValue;
-    //console.log(this.currentUser.role);
   }
 
   ngOnInit() {
   /*  this.userService.getById(this.currentUser.id).pipe(first()).subscribe(user => {
       this.userFromApi = user;
     });*/
+  this.currentUser.role = this.authenticationService.getUserDetail().role;
   }
 }

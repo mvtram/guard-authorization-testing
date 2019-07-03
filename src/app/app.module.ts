@@ -11,13 +11,15 @@ import { routing } from './app-routing.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent, PizzaPartyComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
 import { RegisterComponent } from './register/register.component';
 import { PublisherComponent } from './publisher/publisher.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarModule,  } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,16 +28,23 @@ import { PublisherComponent } from './publisher/publisher.component';
     AdminComponent,
     RegisterComponent,
     PublisherComponent,
+    PizzaPartyComponent
+  ],
+  entryComponents:[
+    PizzaPartyComponent
   ],
   imports: [
+    MatSnackBarModule,
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
     routing,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [
   {  provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  MatSnackBar
   //{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 ],
   bootstrap: [AppComponent]

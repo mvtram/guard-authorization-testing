@@ -2,8 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-
+import { MaterialModule } from '../material.module';
 import { AuthenticationService } from '../_services/authentication.service';
+import { MatSnackBar } from '@angular/material';
+@Component({
+  selector: 'snack-bar-component-example-snack',
+  templateUrl: 'snack-bar.html',
+  styles: [`
+    .example-pizza-party {
+      color: hotpink;
+    }
+  `],
+})
+export class PizzaPartyComponent { }
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent implements OnInit {
@@ -12,12 +23,14 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
-
+  durationInSeconds = 5;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private _snackBar: MatSnackBar
+
   ) {
 
   }
@@ -31,7 +44,19 @@ export class LoginComponent implements OnInit {
   }
 
   get f() { return this.loginForm.controls; }
+  getToken() {
+    if (this.authenticationService.getToken()) {
+      this.router.navigate(['/']);
+    }
+  }
 
+
+
+  openSnackBar() {
+    this._snackBar.openFromComponent(PizzaPartyComponent, {
+      duration: this.durationInSeconds * 1000,
+    });
+  }
   onSubmit() {
     this.submitted = true;
 
@@ -43,10 +68,10 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.f.username.value, this.f.password.value)
       .subscribe(
         data => {
-       //   console.log(data.role);
+         // console.log(data.role);
           if (data.role === 'publisher') {
             this.router.navigate(['/dashboard']);
-          } else if (data.role === 'admin'){
+          } else if (data.role === 'admin') {
             this.router.navigate(['/admin']);
           }
 
@@ -57,11 +82,12 @@ export class LoginComponent implements OnInit {
         });
 
     // redirect to home if already logged in
-    /*if (this.authenticationService.currentUserValue) {
-      console.log(this.authenticationService.currentUserValue.role, 'by login');
-      this.router.navigate(['/']);
-    }
-    */
+   /* if (this.authenticationService.getUserDetail()) {
+      console.log(this.authenticationService.getUserDetail().role, 'by login');
+      this.router.navigate(['/admin']);
+    }*/
+
 
   }
 }
+

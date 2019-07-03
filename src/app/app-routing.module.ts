@@ -12,7 +12,12 @@ import { PublisherComponent } from './publisher/publisher.component';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 
 const appRoutes: Routes = [
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
 
+  },
   {
     path: 'dashboard',
     component: HomeComponent,
