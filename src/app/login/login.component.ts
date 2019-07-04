@@ -23,7 +23,8 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
-  durationInSeconds = 5;
+  durationInSeconds = 2;
+  message:''
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -53,10 +54,11 @@ export class LoginComponent implements OnInit {
 
 
   openSnackBar() {
-    this._snackBar.openFromComponent(PizzaPartyComponent, {
+    return this._snackBar.openFromComponent(PizzaPartyComponent, {
       duration: this.durationInSeconds * 1000,
     });
   }
+
   onSubmit() {
     this.submitted = true;
 
@@ -77,9 +79,13 @@ export class LoginComponent implements OnInit {
 
         },
         err => {
-          this.error = err.error.message || err.statusText;
+         this.error = err.error.message || err.statusText;
+
+
           this.loading = false;
-        });
+        })
+
+        ;
 
     // redirect to home if already logged in
    /* if (this.authenticationService.getUserDetail()) {

@@ -2,7 +2,7 @@
 <h2>Login</h2>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
-  <!--
+
     <label for="username">Username</label>
     <input type="text" formControlName="username" class="form-control"
       [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
@@ -27,7 +27,7 @@
 
 
   <button color="primary" type="submit" [routerLink]="['/auth/register']" routerLinkActive="router-link-active">SIGN UP</button>
--->
+
 
   <button mat-raised-button color="primary" (click)="openSnackBar()" aria-label="Show an example snack-bar">
   Pizza party
@@ -35,5 +35,6 @@
 
 </div>
 
-  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+  <div *ngIf="error" class="alert alert-danger" >{{openSnackBar()}}</div>
+  <div *ngIf="error" class="alert alert-danger" >{{error}}</div>
 </form>
