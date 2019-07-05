@@ -23,15 +23,12 @@ export class AdminComponent implements OnInit {
      }
 
   ngOnInit() {
-    /*this.userService.getAll().pipe(first()).subscribe(users => {
-      this.users = users;
-    });*/
 
 
   }
   getToken() {
     if (this.authenticationService.getToken()) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/admin']);
     }
   }
 

@@ -11,18 +11,22 @@ import { UserService } from '../_services/user.service';
 
 })
 export class PublisherComponent implements OnInit {
+  currentUser = {
+    role: '',
+    token: '',
+    firstname: '',
+    password: '',
+  };
 
-  currentUser: User;
-  userFromApi: User;
 
   constructor(
-    private userService: UserService,
+
     private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit() {
-   /* this.userService.getById(this.currentUser.id).pipe(first()).subscribe(user => {
-      this.userFromApi = user;
-    });*/
+    this.currentUser.role = this.authenticationService.getUserDetail().role;
+
+
   }
 }

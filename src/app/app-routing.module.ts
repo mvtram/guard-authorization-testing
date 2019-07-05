@@ -10,6 +10,7 @@ import { Role } from './_models/role';
 import { RegisterComponent } from './register/register.component';
 import { PublisherComponent } from './publisher/publisher.component';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
+import { AdminGuard } from './_guards/admin.guard';
 
 const appRoutes: Routes = [
   {
@@ -27,15 +28,13 @@ const appRoutes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [AuthGuard],
-   // data: { roles: [Role.Admin] }
+    canActivate: [AdminGuard],
   },
 
   {
     path: 'publisher',
     component: PublisherComponent,
-   // canActivate: [AuthGuard],
-   // data: { roles: [Role.Publisher] }
+    canActivate: [AuthGuard],
   },
   {
     path: 'auth/login',

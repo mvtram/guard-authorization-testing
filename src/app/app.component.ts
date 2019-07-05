@@ -8,23 +8,29 @@ import { User } from './_models/user';
 @Component({ selector: 'app', templateUrl: 'app.component.html' })
 export class AppComponent {
   currentUser: User;
+  title = 'authentication';
+  isLoggedin: boolean;
+  getrolematch: string;
 
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService
   ) {
   }
+  isAuthenticated() {
+    this.isLoggedin = this.authenticationService.isLoggedIn();
+    this.getrolematch = this.authenticationService.userdetail.role;
+    if (this.getrolematch === 'admin') {
+      return !this.isLoggedin;
+    }
+    if (this.getrolematch === 'publisher') {
+      return this.isLoggedin;
+    }
 
-  get isAdmin() {
-
-    return this.authenticationService.isLoggedIn() && this.authenticationService.getUserDetail().role === 'admin';
+    //console.log("AppComponent : " + this.isLoggedin);
   }
-  get isPublisher() {
-    console.log(this.currentUser);
-    console.log(this.currentUser.role);
 
-    return true;
-  }
+
 
   logout() {
     this.authenticationService.logout();

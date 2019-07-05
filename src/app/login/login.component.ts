@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
 import { MaterialModule } from '../material.module';
 import { AuthenticationService } from '../_services/authentication.service';
 import { MatSnackBar } from '@angular/material';
@@ -27,7 +26,6 @@ export class LoginComponent implements OnInit {
   message:''
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
     private _snackBar: MatSnackBar
@@ -47,7 +45,7 @@ export class LoginComponent implements OnInit {
   get f() { return this.loginForm.controls; }
   getToken() {
     if (this.authenticationService.getToken()) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/auth/login']);
     }
   }
 
@@ -72,6 +70,7 @@ export class LoginComponent implements OnInit {
         data => {
          // console.log(data.role);
           if (data.role === 'publisher') {
+
             this.router.navigate(['/dashboard']);
           } else if (data.role === 'admin') {
             this.router.navigate(['/admin']);
@@ -80,8 +79,6 @@ export class LoginComponent implements OnInit {
         },
         err => {
          this.error = err.error.message || err.statusText;
-
-
           this.loading = false;
         })
 

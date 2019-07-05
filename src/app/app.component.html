@@ -1,17 +1,27 @@
 <!-- nav -->
-<div>
 
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
-  <div class="navbar-nav">
-    <a class="nav-item nav-link" routerLink="/dashboard">Home</a>
-    <a class="nav-item nav-link" routerLink="/admin" *ngIf="!isAdmin()">Admin</a>
-    <a class="nav-item nav-link" routerLink="/publisher" *ngIf="!isPublisher()">Publisher</a>
-    <a class="nav-item nav-link" (click)="logout()">Logout</a>
-  </div>
+<nav class="navbar navbar-expand-sm bg-light">
+
+  <!-- Links -->
+  <ul class="navbar-nav">
+
+    <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated()">
+      <a class="nav-link" routerLink="/dashboard">dashboard</a>
+    </li>
+
+
+    <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated()">
+      <a class="nav-link" routerLink="/publisher">publisher</a>
+    </li>
+
+    <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated()">
+      <a class="nav-link" routerLink="/admin">admin</a>
+    </li>
+
+    <li class="nav-item" *ngIf="isAuthenticated()"><a class="nav-link" (click)="logout()">Logout</a></li>
+  </ul>
+
 </nav>
-</div>
-
-<p>hello publisher</p>
 <!-- main app container -->
 <div class="jumbotron">
   <div class="container">
