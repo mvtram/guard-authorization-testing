@@ -8,7 +8,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 //import { fakeBackendProvider } from './_helpers/fake-backend';
 
 import { routing } from './app-routing.module';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent, PizzaPartyComponent } from './login/login.component';
@@ -40,7 +39,7 @@ import { MatSnackBarModule,  } from '@angular/material/snack-bar';
     HttpClientModule,
     routing,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [
   {  provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

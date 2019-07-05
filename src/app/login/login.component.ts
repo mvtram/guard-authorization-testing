@@ -84,11 +84,6 @@ export class LoginComponent implements OnInit {
 
         ;
 
-    // redirect to home if already logged in
-   /* if (this.authenticationService.getUserDetail()) {
-      console.log(this.authenticationService.getUserDetail().role, 'by login');
-      this.router.navigate(['/admin']);
-    }*/
 
 
   }

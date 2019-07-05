@@ -14,7 +14,7 @@
       <a class="nav-link" routerLink="/publisher">publisher</a>
     </li>
 
-    <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated()">
+    <li class="nav-item" routerLinkActive="active" [hidden]="hideElement">
       <a class="nav-link" routerLink="/admin">admin</a>
     </li>
 

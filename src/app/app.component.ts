@@ -1,36 +1,42 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
+import * as jwt_decode from "jwt-decode";
 import { AuthenticationService } from './_services/authentication.service';
-import { Role } from './_models/role';
 import { User } from './_models/user';
-
+//import { PermissionService } from 'angular2-permission';
 @Component({ selector: 'app', templateUrl: 'app.component.html' })
 export class AppComponent {
   currentUser: User;
   title = 'authentication';
   isLoggedin: boolean;
   getrolematch: string;
-
+  role: string;
+  route: string;
+  decodedToken;
+  hideElement = false;
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
   ) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        if (event.url === '/dashboard') {
+          this.hideElement = true;
+        } else if (event.url === '/auth/login') {
+          this.hideElement = true;
+        } else if (event.url === '/publisher') {
+          this.hideElement = true;
+        } else {
+          this.hideElement = false;
+        }
+      }
+    });
   }
+
   isAuthenticated() {
     this.isLoggedin = this.authenticationService.isLoggedIn();
-    this.getrolematch = this.authenticationService.userdetail.role;
-    if (this.getrolematch === 'admin') {
-      return !this.isLoggedin;
-    }
-    if (this.getrolematch === 'publisher') {
-      return this.isLoggedin;
-    }
-
-    //console.log("AppComponent : " + this.isLoggedin);
-  }
-
-
+    return this.isLoggedin;
+}
 
   logout() {
     this.authenticationService.logout();

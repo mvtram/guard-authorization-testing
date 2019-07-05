@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import decode from 'jwt-decode';
 import { User } from '../_models/user';
 import * as jwt_decode from "jwt-decode";
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+  private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
   userdetail = {
     role: '',
     token: '',
   };
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();
+   }
   LoggedToken: string = '';
   loggedIn: boolean = false;
 
@@ -20,11 +26,13 @@ export class AuthenticationService {
       if (user && user.token) {
         this.LoggedToken = user.token;
         localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
       }
 
       console.log('by auth' + this.LoggedToken);
       this.userdetail = this.decodeToken();
       //console.log(this.userdetail);
+
       return this.userdetail;
     }));
   }
@@ -55,6 +63,8 @@ export class AuthenticationService {
     if (this.getToken()) {
       return true;
 
+    }else{
+      return false;
     }
   }
 
@@ -72,9 +82,15 @@ export class AuthenticationService {
 
   logout() {
     localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
   }
   removeToken() {
     localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
+  }
+  public get currentUserValue(): User {
+    console.log('from auth',this.currentUserSubject.value);
+    return this.currentUserSubject.value;
   }
 
 }
